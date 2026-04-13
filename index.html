@@ -112,7 +112,7 @@
 </div>
 
 <script>
-    // Aqui você vai ajustar as médias manualmente. Coloquei "1" como padrão.
+    // Aqui você vai ajustar as médias manualmente.
     const matrizConsumo = {
         "P1": 1, "P2": 1, "P3": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1,
         "SAU1": 1, "SAU2": 1, "SAU3": 1, "SAU4": 1, "SAU5": 1, "SAU6": 1,
@@ -121,7 +121,7 @@
     };
 
     const listasPorTipo = {
-        "P": [
+        "PRACA": [
             "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
             "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
             "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", 
@@ -132,7 +132,7 @@
             "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
             "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
         ],
-        "S": [
+        "BASE": [
             "Açúcar Refinado Sache 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
             "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
             "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
@@ -166,12 +166,16 @@
             return;
         }
 
-        // Identifica o tipo de lista baseado no prefixo do valor (P, SAU ou PPV)
-        let tipo = "PPV";
-        if(localCod.startsWith("P")) tipo = "P";
-        if(localCod.startsWith("SAU")) tipo = "S";
+        // Lógica corrigida para identificar a lista correta
+        let lista;
+        if (localCod.startsWith("P") && !localCod.startsWith("PPV")) {
+            lista = listasPorTipo["PRACA"];
+        } else if (localCod.startsWith("SAU")) {
+            lista = listasPorTipo["BASE"];
+        } else {
+            lista = listasPorTipo["PPV"];
+        }
 
-        const lista = listasPorTipo[tipo];
         const mediaLocal = matrizConsumo[localCod];
 
         lista.forEach((item, index) => {
@@ -228,4 +232,13 @@
         const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
 
         try {
-            await fetch
+            await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosParaEnviar) });
+            alert("Requisição enviada com sucesso!");
+            location.reload(); 
+        } catch (error) {
+            alert("Erro na conexão.");
+            btn.style.display = 'block';
+            status.style.display = 'none';
+        }
+    }
+</script>
