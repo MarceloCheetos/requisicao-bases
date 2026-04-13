@@ -21,15 +21,31 @@
         .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
         .item-name { flex: 1; font-size: 14px; color: #555; padding-right: 10px; }
-        .item-qty { width: 80px; }
-        input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 16px; }
+        
+        /* Novos estilos para os botões de quantidade */
+        .qty-controls { display: flex; align-items: center; gap: 8px; }
+        .btn-qty { 
+            width: 35px; height: 35px; background-color: var(--accent-color); color: white; 
+            border: none; border-radius: 50%; font-size: 20px; font-weight: bold; 
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-qty:active { transform: scale(0.9); background-color: #219150; }
 
-        button { 
+        .item-qty { width: 60px; }
+        input[type="number"] { 
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; 
+            text-align: center; font-size: 16px; 
+            -moz-appearance: textfield;
+        }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        button#btnEnviar { 
             width: 100%; padding: 18px; background-color: var(--accent-color); color: white; 
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold; 
             cursor: pointer; margin-top: 30px; transition: background 0.3s;
         }
-        button:active { transform: scale(0.98); background-color: #219150; }
+        button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
         .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
     </style>
 </head>
@@ -55,8 +71,7 @@
 
     <div class="inventory-section">
         <label>Quantidade dos Itens:</label>
-        <div id="lista-itens">
-            </div>
+        <div id="lista-itens"></div>
     </div>
 
     <button id="btnEnviar" onclick="enviarParaPlanilha()">ENVIAR REQUISIÇÃO</button>
@@ -64,7 +79,6 @@
 </div>
 
 <script>
-    // Lista de itens conforme solicitado
     const itens = [
         "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
         "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
@@ -77,19 +91,32 @@
         "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
     ];
 
-    // Gerar os campos de input automaticamente
     const containerItens = document.getElementById('lista-itens');
     itens.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'item-row';
         div.innerHTML = `
             <span class="item-name">${item}</span>
-            <div class="item-qty">
-                <input type="number" class="input-item" data-name="${item}" value="0" min="0">
+            <div class="qty-controls">
+                <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
+                <div class="item-qty">
+                    <input type="number" id="input-${index}" class="input-item" data-name="${item}" value="0" min="0">
+                </div>
+                <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
             </div>
         `;
         containerItens.appendChild(div);
     });
+
+    // Função para os botões + e -
+    function alterar(id, valor) {
+        const campo = document.getElementById(id);
+        let atual = parseInt(campo.value) || 0;
+        let novoValor = atual + valor;
+        if (novoValor >= 0) {
+            campo.value = novoValor;
+        }
+    }
 
     async function enviarParaPlanilha() {
         const local = document.getElementById('local').value;
@@ -111,24 +138,22 @@
             solicitante: solicitante
         };
 
-        // Coletar quantidades de cada item
         document.querySelectorAll('.input-item').forEach(input => {
             dadosParaEnviar[input.getAttribute('data-name')] = input.value;
         });
 
-        // URL que você vai obter após publicar seu Google Apps Script
         const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
 
         try {
-            const response = await fetch(URL_WEB_APP, {
+            await fetch(URL_WEB_APP, {
                 method: 'POST',
-                mode: 'no-cors', // Importante para o Google Apps Script
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosParaEnviar)
             });
             
             alert("Requisição enviada com sucesso para a planilha!");
-            location.reload(); // Reinicia o formulário
+            location.reload(); 
         } catch (error) {
             console.error(error);
             alert("Erro na conexão. Verifique a URL do Script.");
