@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LotoSmart - Requisição por Setor</title>
+    <title>LotoSmart - Requisição Personalizada</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -20,24 +20,24 @@
         
         .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
-        .item-name { flex: 1; font-size: 14px; color: #555; padding-right: 10px; line-height: 1.2; }
+        
+        .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
+        .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
+        .item-media { font-size: 11px; color: #888; margin-top: 2px; }
         
         .qty-controls { display: flex; align-items: center; gap: 5px; }
         .btn-qty { 
             width: 32px; height: 32px; background-color: var(--accent-color); color: white; 
             border: none; border-radius: 50%; font-size: 18px; font-weight: bold; 
             cursor: pointer; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
         }
         .btn-qty:active { transform: scale(0.9); background-color: #219150; }
 
         .item-qty { width: 45px; }
         input[type="number"] { 
             width: 100%; padding: 6px 0; border: 1px solid #ccc; border-radius: 4px; 
-            text-align: center; font-size: 16px; font-weight: bold;
-            -moz-appearance: textfield;
-            box-sizing: border-box;
+            text-align: center; font-size: 16px; font-weight: bold; -moz-appearance: textfield; box-sizing: border-box;
         }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
@@ -57,12 +57,41 @@
     <h2>Requisição de Materiais</h2>
     
     <div class="form-group">
-        <label>Localização:</label>
+        <label>Localização Específica:</label>
         <select id="local" onchange="renderizarItens()">
             <option value="">Selecione o local...</option>
-            <option value="Praça">Praça (06)</option>
-            <option value="Base">Base (10/11)</option>
-            <option value="PPV">PPV</option>
+            
+            <optgroup label="Praças">
+                <option value="P1">Praça 01</option>
+                <option value="P2">Praça 02</option>
+                <option value="P3">Praça 03</option>
+                <option value="P4">Praça 04</option>
+                <option value="P5">Praça 05</option>
+                <option value="P6">Praça 06</option>
+                <option value="P7">Praça 07</option>
+            </optgroup>
+
+            <optgroup label="Bases">
+                <option value="SAU1">SAU 01</option>
+                <option value="SAU2">SAU 02</option>
+                <option value="SAU3">SAU 03</option>
+                <option value="SAU4">SAU 04</option>
+                <option value="SAU5">SAU 05</option>
+                <option value="SAU6">SAU 06</option>
+                <option value="SAU7">SAU 07</option>
+                <option value="SAU8">SAU 08</option>
+                <option value="SAU9">SAU 09</option>
+                <option value="SAU10">SAU 10</option>
+                <option value="SAU11">SAU 11</option>
+                <option value="SAU12">SAU 12</option>
+            </optgroup>
+
+            <optgroup label="PPVs">
+                <option value="PPV1">PPV 01</option>
+                <option value="PPV2">PPV 02</option>
+                <option value="PPV3">PPV 03</option>
+                <option value="PPV4">PPV 04</option>
+            </optgroup>
         </select>
     </div>
 
@@ -72,9 +101,9 @@
     </div>
 
     <div class="inventory-section">
-        <label>Quantidade dos Itens:</label>
+        <label>Itens e Consumo Médio:</label>
         <div id="lista-itens">
-            <p class="placeholder-text">Selecione uma localização para ver os itens.</p>
+            <p class="placeholder-text">Escolha um local para carregar os dados.</p>
         </div>
     </div>
 
@@ -83,8 +112,16 @@
 </div>
 
 <script>
-    const listasPorSetor = {
-        "Praça": [
+    // Aqui você vai ajustar as médias manualmente. Coloquei "1" como padrão.
+    const matrizConsumo = {
+        "P1": 1, "P2": 1, "P3": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1,
+        "SAU1": 1, "SAU2": 1, "SAU3": 1, "SAU4": 1, "SAU5": 1, "SAU6": 1,
+        "SAU7": 1, "SAU8": 1, "SAU9": 1, "SAU10": 1, "SAU11": 1, "SAU12": 1,
+        "PPV1": 1, "PPV2": 1, "PPV3": 1, "PPV4": 1
+    };
+
+    const listasPorTipo = {
+        "P": [
             "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
             "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
             "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", 
@@ -95,7 +132,7 @@
             "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
             "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
         ],
-        "Base": [
+        "S": [
             "Açúcar Refinado Sache 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
             "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
             "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
@@ -120,21 +157,31 @@
     };
 
     function renderizarItens() {
-        const setorSelecionado = document.getElementById('local').value;
+        const localCod = document.getElementById('local').value;
         const container = document.getElementById('lista-itens');
         container.innerHTML = '';
 
-        if (!setorSelecionado) {
-            container.innerHTML = '<p class="placeholder-text">Selecione uma localização para ver os itens.</p>';
+        if (!localCod) {
+            container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os dados.</p>';
             return;
         }
 
-        const lista = listasPorSetor[setorSelecionado];
+        // Identifica o tipo de lista baseado no prefixo do valor (P, SAU ou PPV)
+        let tipo = "PPV";
+        if(localCod.startsWith("P")) tipo = "P";
+        if(localCod.startsWith("SAU")) tipo = "S";
+
+        const lista = listasPorTipo[tipo];
+        const mediaLocal = matrizConsumo[localCod];
+
         lista.forEach((item, index) => {
             const div = document.createElement('div');
             div.className = 'item-row';
             div.innerHTML = `
-                <span class="item-name">${item}</span>
+                <div class="item-info">
+                    <span class="item-name">${item}</span>
+                    <span class="item-media">Sugestão (Média): ${mediaLocal}</span>
+                </div>
                 <div class="qty-controls">
                     <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
                     <div class="item-qty">
@@ -151,9 +198,7 @@
         const campo = document.getElementById(id);
         let atual = parseInt(campo.value) || 0;
         let novoValor = atual + valor;
-        if (novoValor >= 0 && novoValor <= 99) {
-            campo.value = novoValor;
-        }
+        if (novoValor >= 0 && novoValor <= 99) campo.value = novoValor;
     }
 
     async function enviarParaPlanilha() {
@@ -163,7 +208,7 @@
         const status = document.getElementById('msgStatus');
 
         if (!local || !solicitante) {
-            alert("Por favor, preencha o Local e seu Nome.");
+            alert("Preencha a Localização e seu Nome.");
             return;
         }
 
@@ -176,7 +221,6 @@
             solicitante: solicitante
         };
 
-        // Coleta apenas os itens que estão visíveis na tela
         document.querySelectorAll('.input-item').forEach(input => {
             dadosParaEnviar[input.getAttribute('data-name')] = input.value;
         });
@@ -184,23 +228,4 @@
         const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
 
         try {
-            await fetch(URL_WEB_APP, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dadosParaEnviar)
-            });
-            
-            alert("Requisição enviada com sucesso!");
-            location.reload(); 
-        } catch (error) {
-            console.error(error);
-            alert("Erro na conexão.");
-            btn.style.display = 'block';
-            status.style.display = 'none';
-        }
-    }
-</script>
-
-</body>
-</html>
+            await fetch
