@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LotoSmart - Requisição de Insumos</title>
+    <title>LotoSmart - Requisição por Setor</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -20,11 +20,7 @@
         
         .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
-        
-        /* Ajuste no container do nome para caber a média abaixo */
-        .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
-        .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
-        .item-media { font-size: 11px; color: #888; margin-top: 2px; }
+        .item-name { flex: 1; font-size: 14px; color: #555; padding-right: 10px; line-height: 1.2; }
         
         .qty-controls { display: flex; align-items: center; gap: 5px; }
         .btn-qty { 
@@ -52,6 +48,7 @@
         }
         button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
         .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
+        .placeholder-text { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -60,12 +57,12 @@
     <h2>Requisição de Materiais</h2>
     
     <div class="form-group">
-        <label>Localização (Base/Praça):</label>
-        <select id="local">
+        <label>Localização:</label>
+        <select id="local" onchange="renderizarItens()">
             <option value="">Selecione o local...</option>
-            <option value="Base 10">Base 10</option>
-            <option value="Base 11">Base 11</option>
-            <option value="Praça 06">Praça 06</option>
+            <option value="Praça">Praça (06)</option>
+            <option value="Base">Base (10/11)</option>
+            <option value="PPV">PPV</option>
         </select>
     </div>
 
@@ -76,7 +73,9 @@
 
     <div class="inventory-section">
         <label>Quantidade dos Itens:</label>
-        <div id="lista-itens"></div>
+        <div id="lista-itens">
+            <p class="placeholder-text">Selecione uma localização para ver os itens.</p>
+        </div>
     </div>
 
     <button id="btnEnviar" onclick="enviarParaPlanilha()">ENVIAR REQUISIÇÃO</button>
@@ -84,61 +83,69 @@
 </div>
 
 <script>
-    // Lista de itens com consumo médio (ajuste os valores conforme sua planilha)
-    const itens = [
-        { nome: "Açúcar Refinado Pacote 1 Kg", media: 6 },
-        { nome: "Adoçante Liquido 100ml", media: 2 },
-        { nome: "Álcool Gel 5 Litros", media: 1 },
-        { nome: "Bom Ar", media: 3 },
-        { nome: "Bombril", media: 2 },
-        { nome: "Bucha Verde Amarela", media: 4 },
-        { nome: "Coador Papel Metila n° 103", media: 2 },
-        { nome: "Café 500g", media: 10 },
-        { nome: "Detergente 5 litros", media: 1 },
-        { nome: "Flanela Branca", media: 5 },
-        { nome: "Inseticida Aerosol", media: 2 },
-        { nome: "Pano de Prato", media: 3 },
-        { nome: "Papel Higiênico 300Mts - 8 Rolos", media: 4 },
-        { nome: "Papel Toalha 200Mts - 6 Rolos", media: 4 },
-        { nome: "Sabão em Pó - Pcte 1Kg", media: 2 },
-        { nome: "Sabonete Liquido 5L", media: 1 },
-        { nome: "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", media: 1 },
-        { nome: "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", media: 2 },
-        { nome: "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", media: 2 },
-        { nome: "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", media: 2 },
-        { nome: "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", media: 1 },
-        { nome: "Detergente 500 ml", media: 3 },
-        { nome: "ALCOOL 70% 1000ML", media: 4 },
-        { nome: "Copo Descartável 200ml", media: 10 },
-        { nome: "Pedra Sanitária", media: 6 },
-        { nome: "Rolo de Pano Multiuso", media: 2 },
-        { nome: "Coador de Pano", media: 1 },
-        { nome: "Pulverizador (Borrifador)", media: 1 },
-        { nome: "Lixeira s/ tampa 14L", media: 0 },
-        { nome: "Lixeira c/ tampa e pedal 15L", media: 0 },
-        { nome: "Lixeira c/ tampa e pedal 50L", media: 0 },
-        { nome: "Lixeira c/ tampa e pedal 100L", media: 0 }
-    ];
+    const listasPorSetor = {
+        "Praça": [
+            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
+            "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", 
+            "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", 
+            "Detergente 500 ml", "ALCOOL 70% 1000ML", "Copo Descartável 200ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ],
+        "Base": [
+            "Açúcar Refinado Sache 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
+            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
+            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
+            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ],
+        "PPV": [
+            "Açúcar Refinado Sache 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
+            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
+            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
+            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Veja Multiuso 500ml", "Detergente 500 ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ]
+    };
 
-    const containerItens = document.getElementById('lista-itens');
-    itens.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'item-row';
-        div.innerHTML = `
-            <div class="item-info">
-                <span class="item-name">${item.nome}</span>
-                <span class="item-media">Consumo médio: ${item.media}</span>
-            </div>
-            <div class="qty-controls">
-                <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
-                <div class="item-qty">
-                    <input type="number" id="input-${index}" class="input-item" data-name="${item.nome}" value="0" min="0" max="99">
+    function renderizarItens() {
+        const setorSelecionado = document.getElementById('local').value;
+        const container = document.getElementById('lista-itens');
+        container.innerHTML = '';
+
+        if (!setorSelecionado) {
+            container.innerHTML = '<p class="placeholder-text">Selecione uma localização para ver os itens.</p>';
+            return;
+        }
+
+        const lista = listasPorSetor[setorSelecionado];
+        lista.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'item-row';
+            div.innerHTML = `
+                <span class="item-name">${item}</span>
+                <div class="qty-controls">
+                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
+                    <div class="item-qty">
+                        <input type="number" id="input-${index}" class="input-item" data-name="${item}" value="0" min="0" max="99">
+                    </div>
+                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
                 </div>
-                <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
-            </div>
-        `;
-        containerItens.appendChild(div);
-    });
+            `;
+            container.appendChild(div);
+        });
+    }
 
     function alterar(id, valor) {
         const campo = document.getElementById(id);
@@ -169,6 +176,7 @@
             solicitante: solicitante
         };
 
+        // Coleta apenas os itens que estão visíveis na tela
         document.querySelectorAll('.input-item').forEach(input => {
             dadosParaEnviar[input.getAttribute('data-name')] = input.value;
         });
@@ -183,11 +191,11 @@
                 body: JSON.stringify(dadosParaEnviar)
             });
             
-            alert("Requisição enviada com sucesso para a planilha!");
+            alert("Requisição enviada com sucesso!");
             location.reload(); 
         } catch (error) {
             console.error(error);
-            alert("Erro na conexão. Verifique a URL do Script.");
+            alert("Erro na conexão.");
             btn.style.display = 'block';
             status.style.display = 'none';
         }
