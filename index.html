@@ -3,41 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LotoSmart - Requisição de Materiais</title>
+    <title>LotoSmart - Requisição Personalizada</title>
     <style>
         :root {
             --primary-color: #2c3e50;
             --accent-color: #27ae60;
             --bg-color: #f4f7f6;
         }
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg-color); 
-            margin: 0; 
-            padding: 15px; 
-        }
-        .container { 
-            max-width: 500px; 
-            margin: auto; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { text-align: center; color: var(--primary-color); margin-bottom: 25px; }
         
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
-        select, input[type="text"] { 
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; 
-            box-sizing: border-box; font-size: 16px; 
-        }
+        select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
         .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
-        .item-row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 12px 0; border-bottom: 1px solid #f9f9f9; 
-        }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
         
         .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
         .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
@@ -52,7 +34,7 @@
         }
         .btn-qty:active { transform: scale(0.9); background-color: #219150; }
 
-        .item-qty { width: 50px; }
+        .item-qty { width: 45px; }
         input[type="number"] { 
             width: 100%; padding: 6px 0; border: 1px solid #ccc; border-radius: 4px; 
             text-align: center; font-size: 16px; font-weight: bold; -moz-appearance: textfield; box-sizing: border-box;
@@ -64,9 +46,8 @@
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold; 
             cursor: pointer; margin-top: 30px; transition: background 0.3s;
         }
-        button#btnEnviar:disabled { background-color: #ccc; cursor: not-allowed; }
-        
-        .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 15px; }
+        button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
+        .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
         .placeholder-text { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
 </head>
@@ -76,9 +57,10 @@
     <h2>Requisição de Materiais</h2>
     
     <div class="form-group">
-        <label>Localização:</label>
+        <label>Localização Específica:</label>
         <select id="local" onchange="renderizarItens()">
             <option value="">Selecione o local...</option>
+            
             <optgroup label="Praças">
                 <option value="P1">Praça 01</option>
                 <option value="P2">Praça 02</option>
@@ -88,6 +70,7 @@
                 <option value="P6">Praça 06</option>
                 <option value="P7">Praça 07</option>
             </optgroup>
+
             <optgroup label="Bases">
                 <option value="SAU1">SAU 01</option>
                 <option value="SAU2">SAU 02</option>
@@ -102,6 +85,7 @@
                 <option value="SAU11">SAU 11</option>
                 <option value="SAU12">SAU 12</option>
             </optgroup>
+
             <optgroup label="PPVs">
                 <option value="PPV1">PPV 01</option>
                 <option value="PPV2">PPV 02</option>
@@ -117,9 +101,9 @@
     </div>
 
     <div class="inventory-section">
-        <label>Itens e Quantidades:</label>
+        <label>Itens e Consumo Médio:</label>
         <div id="lista-itens">
-            <p class="placeholder-text">Escolha um local para carregar os itens.</p>
+            <p class="placeholder-text">Escolha um local para carregar os dados.</p>
         </div>
     </div>
 
@@ -128,18 +112,48 @@
 </div>
 
 <script>
-    const urlScript = "https://script.google.com/macros/s/AKfycbznrt4aGKagTMSmxrUDi1S3zRGrYSndo69p_EumOYaMHMtVNpS1c_FFDBWQRvpT6oIk/exec";
-
-    // Matriz de consumo (Exemplo P1 preenchida, demais usam valor 1 como padrão)
+    // Aqui você vai ajustar as médias manualmente.
     const matrizConsumo = {
-        "P1": { "Açúcar Refinado Pacote 1 Kg": 10, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Café 500g": 1 }
-        // Adicione aqui as especificidades de outros locais se houver
+        "P1": 1, "P2": 1, "P3": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1,
+        "SAU1": 1, "SAU2": 1, "SAU3": 1, "SAU4": 1, "SAU5": 1, "SAU6": 1,
+        "SAU7": 1, "SAU8": 1, "SAU9": 1, "SAU10": 1, "SAU11": 1, "SAU12": 1,
+        "PPV1": 1, "PPV2": 1, "PPV3": 1, "PPV4": 1
     };
 
     const listasPorTipo = {
-        "PRACA": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "ALCOOL 70% 1000ML", "Copo Descartável 200ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"],
-        "BASE": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"],
-        "PPV": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Veja Multiuso 500ml", "Detergente 500 ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"]
+        "PRACA": [
+            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
+            "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", 
+            "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", 
+            "Detergente 500 ml", "ALCOOL 70% 1000ML", "Copo Descartável 200ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ],
+        "BASE": [
+            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
+            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
+            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
+            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ],
+        "PPV": [
+            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
+            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
+            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
+            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
+            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
+            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Veja Multiuso 500ml", "Detergente 500 ml", "Pedra Sanitária", 
+            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
+            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
+        ]
     };
 
     function renderizarItens() {
@@ -148,80 +162,83 @@
         container.innerHTML = '';
 
         if (!localCod) {
-            container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os itens.</p>';
+            container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os dados.</p>';
             return;
         }
 
-        const tipo = localCod.startsWith("SAU") ? "BASE" : (localCod.startsWith("PPV") ? "PPV" : "PRACA");
-        const lista = listasPorTipo[tipo];
-        const mediasLocais = matrizConsumo[localCod] || {};
+        // Lógica corrigida para identificar a lista correta
+        let lista;
+        if (localCod.startsWith("P") && !localCod.startsWith("PPV")) {
+            lista = listasPorTipo["PRACA"];
+        } else if (localCod.startsWith("SAU")) {
+            lista = listasPorTipo["BASE"];
+        } else {
+            lista = listasPorTipo["PPV"];
+        }
+
+        const mediaLocal = matrizConsumo[localCod];
 
         lista.forEach((item, index) => {
-            const media = mediasLocais[item] || 1;
-            const row = document.createElement('div');
-            row.className = 'item-row';
-            row.innerHTML = `
+            const div = document.createElement('div');
+            div.className = 'item-row';
+            div.innerHTML = `
                 <div class="item-info">
                     <span class="item-name">${item}</span>
-                    <span class="item-media">Sugestão: ${media}</span>
+                    <span class="item-media">Sugestão (Média): ${mediaLocal}</span>
                 </div>
                 <div class="qty-controls">
-                    <button class="btn-qty" onclick="alterarQtd('${index}', -1)">-</button>
+                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
                     <div class="item-qty">
-                        <input type="number" id="qtd-${index}" value="${media}" min="0">
+                        <input type="number" id="input-${index}" class="input-item" data-name="${item}" value="0" min="0" max="99">
                     </div>
-                    <button class="btn-qty" onclick="alterarQtd('${index}', 1)">+</button>
+                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
                 </div>
             `;
-            container.appendChild(row);
+            container.appendChild(div);
         });
     }
 
-    function alterarQtd(idx, delta) {
-        const input = document.getElementById(`qtd-${idx}`);
-        let val = parseInt(input.value) || 0;
-        input.value = Math.max(0, val + delta);
+    function alterar(id, valor) {
+        const campo = document.getElementById(id);
+        let atual = parseInt(campo.value) || 0;
+        let novoValor = atual + valor;
+        if (novoValor >= 0 && novoValor <= 99) campo.value = novoValor;
     }
 
-    function enviarParaPlanilha() {
+    async function enviarParaPlanilha() {
         const local = document.getElementById('local').value;
         const solicitante = document.getElementById('solicitante').value;
-        
+        const btn = document.getElementById('btnEnviar');
+        const status = document.getElementById('msgStatus');
+
         if (!local || !solicitante) {
-            alert("Preencha o local e seu nome antes de enviar.");
+            alert("Preencha a Localização e seu Nome.");
             return;
         }
 
-        const btn = document.getElementById('btnEnviar');
-        const status = document.getElementById('msgStatus');
-        
-        btn.disabled = true;
+        btn.style.display = 'none';
         status.style.display = 'block';
 
-        const itens = [];
-        document.querySelectorAll('.item-row').forEach(row => {
-            const nome = row.querySelector('.item-name').innerText;
-            const qtd = parseInt(row.querySelector('input').value);
-            if (qtd > 0) itens.push({ item: nome, quantidade: qtd });
+        const dadosParaEnviar = {
+            data: new Date().toLocaleString('pt-BR'),
+            local: local,
+            solicitante: solicitante
+        };
+
+        document.querySelectorAll('.input-item').forEach(input => {
+            dadosParaEnviar[input.getAttribute('data-name')] = input.value;
         });
 
-        const payload = { local, solicitante, itens };
+        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
 
-        fetch(urlScript, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        }).then(() => {
+        try {
+            await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosParaEnviar) });
             alert("Requisição enviada com sucesso!");
-            location.reload(); // Recarrega para limpar
-        }).catch(err => {
-            alert("Erro ao enviar. Verifique sua conexão.");
-            btn.disabled = false;
+            location.reload(); 
+        } catch (error) {
+            alert("Erro na conexão.");
+            btn.style.display = 'block';
             status.style.display = 'none';
-        });
+        }
     }
 </script>
-
-</body>
-</html>
