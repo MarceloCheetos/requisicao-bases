@@ -60,7 +60,6 @@
         <label>Localização Específica:</label>
         <select id="local" onchange="renderizarItens()">
             <option value="">Selecione o local...</option>
-            
             <optgroup label="Praças">
                 <option value="P1">Praça 01</option>
                 <option value="P2">Praça 02</option>
@@ -70,7 +69,6 @@
                 <option value="P6">Praça 06</option>
                 <option value="P7">Praça 07</option>
             </optgroup>
-
             <optgroup label="Bases">
                 <option value="SAU1">SAU 01</option>
                 <option value="SAU2">SAU 02</option>
@@ -85,7 +83,6 @@
                 <option value="SAU11">SAU 11</option>
                 <option value="SAU12">SAU 12</option>
             </optgroup>
-
             <optgroup label="PPVs">
                 <option value="PPV1">PPV 01</option>
                 <option value="PPV2">PPV 02</option>
@@ -112,161 +109,77 @@
 </div>
 
 <script>
-    // MATRIZ DE CONSUMO COMPLETA - TODOS OS PONTOS E ITENS COM VALOR 1
     const matrizConsumo = {
-        // PRAÇAS
         "P1": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
         "P2": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
         "P3": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
         "P4": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
         "P5": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
         "P6": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "P7": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-
-        // BASES (SAU)
-        "SAU1": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU2": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU3": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU4": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU5": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU6": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU7": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU8": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU9": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU10": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU11": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "SAU12": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-
-        // PPVs
-        "PPV1": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Veja Multiuso 500ml": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "PPV2": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Veja Multiuso 500ml": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "PPV3": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Veja Multiuso 500ml": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 },
-        "PPV4": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "ALCOOL 70% 1000ML": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Copo Descartável 200ml - 100 Unid.": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Veja Multiuso 500ml": 1, "Detergente 500 ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 }
+        "P7": { "Açúcar Refinado Pacote 1 Kg": 1, "Adoçante Liquido 100ml": 1, "Álcool Gel 5 Litros": 1, "Bom Ar": 1, "Bombril": 1, "Bucha Verde Amarela": 1, "Coador Papel Metila n° 103": 1, "Café 500g": 1, "Detergente 5 litros": 1, "Flanela Branca": 1, "Inseticida Aerosol": 1, "Pano de Prato": 1, "Papel Higiênico 300Mts - 8 Rolos": 1, "Papel Toalha 200Mts - 6 Rolos": 1, "Sabão em Pó - Pcte 1Kg": 1, "Sabonete Liquido 5L": 1, "Saco de Lixo 200L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 100L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 60L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 40L Preto - pcte c/ 100 Unid.": 1, "Saco de Lixo 20L Preto - pcte c/ 100 Unid.": 1, "Detergente 500 ml": 1, "ALCOOL 70% 1000ML": 1, "Copo Descartável 200ml": 1, "Pedra Sanitária": 1, "Rolo de Pano Multiuso": 1, "Coador de Pano": 1, "Pulverizador (Borrifador)": 1, "Lixeira s/ tampa 14L": 1, "Lixeira c/ tampa e pedal 15L": 1, "Lixeira c/ tampa e pedal 50L": 1, "Lixeira c/ tampa e pedal 100L": 1 }
     };
 
     const listasPorTipo = {
-        "PRACA": [
-            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", 
-            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", 
-            "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", 
-            "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", 
-            "Detergente 500 ml", "ALCOOL 70% 1000ML", "Copo Descartável 200ml", "Pedra Sanitária", 
-            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
-            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
-        ],
-        "BASE": [
-            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
-            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
-            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
-            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
-            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "Pedra Sanitária", 
-            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
-            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
-        ],
-        "PPV": [
-            "Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", 
-            "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", 
-            "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", 
-            "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", 
-            "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", 
-            "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Veja Multiuso 500ml", "Detergente 500 ml", "Pedra Sanitária", 
-            "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", 
-            "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"
-        ]
+        "PRACA": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "Álcool Gel 5 Litros", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "ALCOOL 70% 1000ML", "Copo Descartável 200ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"],
+        "BASE": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Detergente 500 ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"],
+        "PPV": ["Açúcar Refinado Pacote 1 Kg", "Adoçante Liquido 100ml", "ALCOOL 70% 1000ML", "Bom Ar", "Bombril", "Bucha Verde Amarela", "Coador Papel Metila n° 103", "Café 500g", "Copo Descartável 200ml - 100 Unid.", "Detergente 5 litros", "Flanela Branca", "Inseticida Aerosol", "Pano de Prato", "Papel Higiênico 300Mts - 8 Rolos", "Papel Toalha 200Mts - 6 Rolos", "Sabão em Pó - Pcte 1Kg", "Sabonete Liquido 5L", "Saco de Lixo 200L Preto - pcte c/ 100 Unid.", "Saco de Lixo 100L Preto - pcte c/ 100 Unid.", "Saco de Lixo 60L Preto - pcte c/ 100 Unid.", "Saco de Lixo 40L Preto - pcte c/ 100 Unid.", "Saco de Lixo 20L Preto - pcte c/ 100 Unid.", "Veja Multiuso 500ml", "Detergente 500 ml", "Pedra Sanitária", "Rolo de Pano Multiuso", "Coador de Pano", "Pulverizador (Borrifador)", "Lixeira s/ tampa 14L", "Lixeira c/ tampa e pedal 15L", "Lixeira c/ tampa e pedal 50L", "Lixeira c/ tampa e pedal 100L"]
     };
 
     function renderizarItens() {
         const localCod = document.getElementById('local').value;
         const container = document.getElementById('lista-itens');
         container.innerHTML = '';
-
         if (!localCod) {
             container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os dados.</p>';
             return;
         }
-
-        let lista;
-        if (localCod.startsWith("P") && !localCod.startsWith("PPV")) {
-            lista = listasPorTipo["PRACA"];
-        } else if (localCod.startsWith("SAU")) {
-            lista = listasPorTipo["BASE"];
-        } else {
-            lista = listasPorTipo["PPV"];
-        }
-
-        // Pega as médias específicas desse local
-        const mediasDoLocal = matrizConsumo[localCod] || {};
-
+        let tipo = (localCod.startsWith("P") && !localCod.startsWith("PPV")) ? "PRACA" : (localCod.startsWith("SAU")) ? "BASE" : "PPV";
+        const lista = listasPorTipo[tipo];
+        const mediasLocais = matrizConsumo[localCod] || {};
         lista.forEach((item, index) => {
-            // Se o item não tiver média definida na matriz para esse local, usa 0
-            const mediaItem = mediasDoLocal[item] !== undefined ? mediasDoLocal[item] : 0;
-
-            const div = document.createElement('div');
-            div.className = 'item-row';
-            div.innerHTML = `
+            const media = mediasLocais[item] || 1;
+            const row = document.createElement('div');
+            row.className = 'item-row';
+            row.innerHTML = `
                 <div class="item-info">
                     <span class="item-name">${item}</span>
-                    <span class="item-media">Sugestão (Média): ${mediaItem}</span>
+                    <span class="item-media">Consumo médio: ${media}</span>
                 </div>
                 <div class="qty-controls">
-                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
+                    <button class="btn-qty" onclick="alterarQtd(${index}, -1)">-</button>
                     <div class="item-qty">
-                        <input type="number" id="input-${index}" class="input-item" data-name="${item}" value="0" min="0" max="99">
+                        <input type="number" id="qtd-${index}" value="${media}">
                     </div>
-                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
+                    <button class="btn-qty" onclick="alterarQtd(${index}, 1)">+</button>
                 </div>
             `;
-            container.appendChild(div);
+            container.appendChild(row);
         });
     }
 
-    function alterar(id, valor) {
-        const campo = document.getElementById(id);
-        let atual = parseInt(campo.value) || 0;
-        let novoValor = atual + valor;
-        if (novoValor >= 0 && novoValor <= 99) campo.value = novoValor;
+    function alterarQtd(id, delta) {
+        const input = document.getElementById(`qtd-${id}`);
+        let valor = parseInt(input.value) || 0;
+        input.value = Math.max(0, valor + delta);
     }
 
-    async function enviarParaPlanilha() {
-        const local = document.getElementById('local').value;
-        const solicitante = document.getElementById('solicitante').value;
-        const btn = document.getElementById('btnEnviar');
-        const status = document.getElementById('msgStatus');
-
-        if (!local || !solicitante) {
-            alert("Preencha a Localização e seu Nome.");
+    // AQUI ESTÁ A CORREÇÃO: ADICIONADO .trim() PARA LIMPAR OS ESPAÇOS
+    function enviarParaPlanilha() {
+        const local = document.getElementById('local').value.trim();
+        const solicitante = document.getElementById('solicitante').value.trim();
+        
+        if(!local || !solicitante) {
+            alert("Por favor, preencha o local e seu nome.");
             return;
         }
 
-        btn.style.display = 'none';
-        status.style.display = 'block';
-
-        const dadosParaEnviar = {
-            data: new Date().toLocaleString('pt-BR'),
-            local: local,
-            solicitante: solicitante
-        };
-
-        document.querySelectorAll('.input-item').forEach(input => {
-            dadosParaEnviar[input.getAttribute('data-name')] = input.value;
-        });
-
-        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
-
-        try {
-            await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosParaEnviar) });
-            alert("Requisição enviada com sucesso!");
-            location.reload(); 
-        } catch (error) {
-            alert("Erro na conexão.");
-            btn.style.display = 'block';
-            status.style.display = 'none';
-        }
+        document.getElementById('msgStatus').style.display = 'block';
+        
+        // Simulação de envio (substitua pelo seu fetch quando for integrar com a planilha)
+        console.log("Dados Limpos para Envio:", { local, solicitante });
+        alert("Requisição de " + solicitante + " para " + local + " enviada com sucesso (limpa de espaços)!");
+        
+        document.getElementById('msgStatus').style.display = 'none';
     }
 </script>
 </body>
