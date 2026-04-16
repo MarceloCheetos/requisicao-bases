@@ -10,43 +10,50 @@
             --accent-color: #27ae60;
             --bg-color: #f4f7f6;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: var(--primary-color); margin-bottom: 25px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: var(--primary-color); margin-bottom: 20px; font-size: 20px; }
         
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
-        select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; font-size: 14px; }
+        select, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
-        .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
+        .inventory-section { border-top: 2px solid #eee; padding-top: 15px; }
         
-        .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
-        .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
-        .item-media { font-size: 11px; color: #888; margin-top: 2px; }
-        
-        .qty-controls { display: flex; align-items: center; gap: 5px; }
-        .btn-qty { 
-            width: 32px; height: 32px; background-color: var(--accent-color); color: white; 
-            border: none; border-radius: 50%; font-size: 18px; font-weight: bold; 
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
-        }
-        .btn-qty:active { transform: scale(0.9); background-color: #219150; }
+        /* Cabeçalho das Colunas */
+        .column-header { display: flex; justify-content: flex-end; padding-bottom: 5px; border-bottom: 2px solid #f2f2f2; margin-bottom: 10px; }
+        .header-title { font-size: 10px; font-weight: bold; color: #7f8c8d; text-align: center; width: 105px; }
 
-        .item-qty { width: 45px; }
-        input[type="number"] { 
-            width: 100%; padding: 6px 0; border: 1px solid #ccc; border-radius: 4px; 
-            text-align: center; font-size: 16px; font-weight: bold; -moz-appearance: textfield; box-sizing: border-box;
+        .item-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f9f9f9; gap: 10px; }
+        .item-info { flex: 1; min-width: 100px; }
+        .item-name { font-size: 12px; color: #333; font-weight: 500; line-height: 1.2; }
+        
+        /* Controles de Quantidade (Estoque e Pedido) */
+        .controls-container { display: flex; gap: 8px; flex-shrink: 0; }
+        .qty-group { display: flex; align-items: center; gap: 3px; background: #f8f9fa; padding: 4px; border-radius: 6px; border: 1px solid #eee; }
+        .qty-group.pedido { border-color: #d4edda; background-color: #f0fff4; }
+
+        .btn-qty { 
+            width: 26px; height: 26px; background-color: var(--accent-color); color: white; 
+            border: none; border-radius: 4px; font-size: 16px; font-weight: bold; 
+            cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0;
         }
+        .btn-qty.minus { background-color: #e74c3c; } /* Vermelho para diminuir, se preferir */
+        .btn-qty:active { transform: scale(0.9); opacity: 0.8; }
+
+        .item-qty { 
+            width: 35px; padding: 4px 0; border: 1px solid #ccc; border-radius: 4px; 
+            text-align: center; font-size: 14px; font-weight: bold; box-sizing: border-box;
+            background: white;
+        }
+
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         button#btnEnviar { 
-            width: 100%; padding: 18px; background-color: var(--accent-color); color: white; 
+            width: 100%; padding: 16px; background-color: var(--accent-color); color: white; 
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold; 
-            cursor: pointer; margin-top: 30px; transition: background 0.3s;
+            cursor: pointer; margin-top: 25px;
         }
-        button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
         .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
         .placeholder-text { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
@@ -57,10 +64,9 @@
     <h2>Requisição de Materiais</h2>
     
     <div class="form-group">
-        <label>Localização Específica:</label>
+        <label>Localização:</label>
         <select id="local" onchange="renderizarItens()">
             <option value="">Selecione o local...</option>
-            
             <optgroup label="Praças">
                 <option value="P1">Praça 01</option>
                 <option value="P2">Praça 02</option>
@@ -70,45 +76,26 @@
                 <option value="P6">Praça 06</option>
                 <option value="P7">Praça 07</option>
             </optgroup>
-
-            <optgroup label="Bases">
-                <option value="SAU1">SAU 01</option>
-                <option value="SAU2">SAU 02</option>
-                <option value="SAU3">SAU 03</option>
-                <option value="SAU4">SAU 04</option>
-                <option value="SAU5">SAU 05</option>
-                <option value="SAU6">SAU 06</option>
-                <option value="SAU7">SAU 07</option>
-                <option value="SAU8">SAU 08</option>
-                <option value="SAU9">SAU 09</option>
-                <option value="SAU10">SAU 10</option>
-                <option value="SAU11">SAU 11</option>
-                <option value="SAU12">SAU 12</option>
-            </optgroup>
-
-            <optgroup label="PPVs">
-                <option value="PPV1">PPV 01</option>
-                <option value="PPV2">PPV 02</option>
-                <option value="PPV3">PPV 03</option>
-                <option value="PPV4">PPV 04</option>
-            </optgroup>
-        </select>
+            </select>
     </div>
 
     <div class="form-group">
-        <label>Nome do Colaborador:</label>
-        <input type="text" id="solicitante" placeholder="Digite seu nome completo">
+        <label>Colaborador:</label>
+        <input type="text" id="solicitante" placeholder="Seu nome">
     </div>
 
     <div class="inventory-section">
-        <label>Itens e Consumo Médio:</label>
+        <div class="column-header">
+            <span class="header-title">ESTOQUE ATUAL</span>
+            <span class="header-title" style="color: var(--accent-color);">PEDIDO NOVO</span>
+        </div>
         <div id="lista-itens">
             <p class="placeholder-text">Escolha um local para carregar os dados.</p>
         </div>
     </div>
 
     <button id="btnEnviar" onclick="enviarParaPlanilha()">ENVIAR REQUISIÇÃO</button>
-    <div id="msgStatus" class="loading">Enviando dados... Aguarde.</div>
+    <div id="msgStatus" class="loading">Enviando dados...</div>
 </div>
 
 <script>
