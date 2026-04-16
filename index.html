@@ -9,52 +9,44 @@
             --primary-color: #2c3e50;
             --accent-color: #27ae60;
             --bg-color: #f4f7f6;
-            --danger-color: #e74c3c;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: var(--primary-color); margin-bottom: 20px; font-size: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: var(--primary-color); margin-bottom: 25px; }
         
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; font-size: 14px; }
-        select, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
+        select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
-        .inventory-section { border-top: 2px solid #eee; padding-top: 15px; }
+        .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
         
-        /* Cabeçalho das Colunas */
-        .column-header { display: flex; justify-content: flex-end; padding-bottom: 5px; border-bottom: 2px solid #f2f2f2; margin-bottom: 10px; }
-        .header-title { font-size: 10px; font-weight: bold; color: #7f8c8d; text-align: center; width: 110px; }
-
-        .item-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f9f9f9; gap: 5px; }
-        .item-info { flex: 1; min-width: 90px; }
-        .item-name { font-size: 12px; color: #333; font-weight: 600; line-height: 1.2; }
+        .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
+        .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
+        .item-media { font-size: 11px; color: #888; margin-top: 2px; }
         
-        /* Controles de Quantidade */
-        .controls-container { display: flex; gap: 5px; flex-shrink: 0; }
-        .qty-group { display: flex; align-items: center; gap: 2px; background: #f8f9fa; padding: 3px; border-radius: 6px; border: 1px solid #ddd; }
-        .qty-group.pedido { border-color: #d4edda; background-color: #f0fff4; }
-
+        .qty-controls { display: flex; align-items: center; gap: 5px; }
         .btn-qty { 
-            width: 28px; height: 28px; background-color: var(--accent-color); color: white; 
-            border: none; border-radius: 4px; font-size: 16px; font-weight: bold; 
-            cursor: pointer; display: flex; justify-content: center; align-items: center; flex-shrink: 0;
+            width: 32px; height: 32px; background-color: var(--accent-color); color: white; 
+            border: none; border-radius: 50%; font-size: 18px; font-weight: bold; 
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
         }
-        .btn-qty.minus { background-color: #95a5a6; } /* Cor neutra para o menos */
-        .btn-qty:active { transform: scale(0.9); }
+        .btn-qty:active { transform: scale(0.9); background-color: #219150; }
 
-        .item-qty { 
-            width: 38px; padding: 4px 0; border: 1px solid #ccc; border-radius: 4px; 
-            text-align: center; font-size: 14px; font-weight: bold; box-sizing: border-box;
-            background: white;
+        .item-qty { width: 45px; }
+        input[type="number"] { 
+            width: 100%; padding: 6px 0; border: 1px solid #ccc; border-radius: 4px; 
+            text-align: center; font-size: 16px; font-weight: bold; -moz-appearance: textfield; box-sizing: border-box;
         }
-
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         button#btnEnviar { 
             width: 100%; padding: 18px; background-color: var(--accent-color); color: white; 
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold; 
-            cursor: pointer; margin-top: 25px; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+            cursor: pointer; margin-top: 30px; transition: background 0.3s;
         }
+        button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
         .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
         .placeholder-text { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
@@ -109,10 +101,7 @@
     </div>
 
     <div class="inventory-section">
-        <div class="column-header">
-            <span class="header-title">ESTOQUE ATUAL</span>
-            <span class="header-title" style="color: var(--accent-color);">PEDIDO NOVO</span>
-        </div>
+        <label>Itens e Consumo Médio:</label>
         <div id="lista-itens">
             <p class="placeholder-text">Escolha um local para carregar os dados.</p>
         </div>
