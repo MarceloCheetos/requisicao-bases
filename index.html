@@ -9,44 +9,62 @@
             --primary-color: #2c3e50;
             --accent-color: #27ae60;
             --bg-color: #f4f7f6;
+            --danger-color: #e74c3c;
+            --gray-step: #95a5a6;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: var(--primary-color); margin-bottom: 25px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; }
+        .container { max-width: 650px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: var(--primary-color); margin-bottom: 20px; font-size: 20px; }
         
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
-        select, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; font-size: 14px; }
+        select, input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
         
-        .inventory-section { border-top: 2px solid #eee; padding-top: 20px; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
+        .inventory-section { border-top: 2px solid #eee; padding-top: 15px; }
         
-        .item-info { flex: 1; display: flex; flex-direction: column; padding-right: 10px; }
-        .item-name { font-size: 14px; color: #333; font-weight: 500; line-height: 1.2; }
-        .item-media { font-size: 11px; color: #888; margin-top: 2px; }
-        
-        .qty-controls { display: flex; align-items: center; gap: 5px; }
-        .btn-qty { 
-            width: 32px; height: 32px; background-color: var(--accent-color); color: white; 
-            border: none; border-radius: 50%; font-size: 18px; font-weight: bold; 
-            cursor: pointer; display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
-        }
-        .btn-qty:active { transform: scale(0.9); background-color: #219150; }
+        /* Cabeçalho das Colunas */
+        .column-header { display: flex; justify-content: flex-end; padding-bottom: 5px; border-bottom: 2px solid #f2f2f2; margin-bottom: 10px; gap: 10px; }
+        .header-title { font-size: 10px; font-weight: bold; color: #7f8c8d; text-align: center; width: 115px; }
 
-        .item-qty { width: 45px; }
-        input[type="number"] { 
-            width: 100%; padding: 6px 0; border: 1px solid #ccc; border-radius: 4px; 
-            text-align: center; font-size: 16px; font-weight: bold; -moz-appearance: textfield; box-sizing: border-box;
+        .item-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #f9f9f9; gap: 10px; }
+        
+        /* Info do Item: Nome em cima, Média embaixo */
+        .item-info { flex: 1; display: flex; flex-direction: column; min-width: 100px; }
+        .item-name { font-size: 13px; color: #333; font-weight: 600; line-height: 1.2; }
+        .item-media { font-size: 11px; color: #888; margin-top: 2px; font-style: italic; }
+        
+        /* Controles de Quantidade */
+        .controls-container { display: flex; gap: 8px; flex-shrink: 0; }
+        
+        .qty-group { display: flex; align-items: center; gap: 2px; background: #f1f2f6; padding: 4px; border-radius: 6px; border: 1px solid #ddd; }
+        /* Destaque para a coluna de Pedido */
+        .qty-group.pedido-color { border-color: #d4edda; background-color: #f0fff4; }
+
+        .btn-qty { 
+            width: 28px; height: 28px; color: white; border: none; border-radius: 4px; 
+            font-size: 16px; font-weight: bold; cursor: pointer; 
+            display: flex; justify-content: center; align-items: center; flex-shrink: 0;
         }
+        /* Botões de Estoque (Cinza) */
+        .btn-estoque { background-color: var(--gray-step); }
+        /* Botões de Pedido (Verde) */
+        .btn-pedido { background-color: var(--accent-color); }
+        
+        .btn-qty:active { transform: scale(0.9); opacity: 0.8; }
+
+        .item-qty { 
+            width: 38px; padding: 4px 0; border: 1px solid #ccc; border-radius: 4px; 
+            text-align: center; font-size: 14px; font-weight: bold; box-sizing: border-box;
+            background: white;
+        }
+
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         button#btnEnviar { 
             width: 100%; padding: 18px; background-color: var(--accent-color); color: white; 
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold; 
-            cursor: pointer; margin-top: 30px; transition: background 0.3s;
+            cursor: pointer; margin-top: 25px; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
         }
-        button#btnEnviar:active { transform: scale(0.98); background-color: #219150; }
         .loading { display: none; text-align: center; color: var(--accent-color); font-weight: bold; margin-top: 10px; }
         .placeholder-text { text-align: center; color: #888; padding: 20px; font-style: italic; }
     </style>
@@ -101,7 +119,10 @@
     </div>
 
     <div class="inventory-section">
-        <label>Itens e Consumo Médio:</label>
+        <div class="column-header">
+            <span class="header-title">ESTOQUE ATUAL</span>
+            <span class="header-title" style="color: var(--accent-color);">PEDIDO NOVO</span>
+        </div>
         <div id="lista-itens">
             <p class="placeholder-text">Escolha um local para carregar os dados.</p>
         </div>
@@ -110,6 +131,14 @@
     <button id="btnEnviar" onclick="enviarParaPlanilha()">ENVIAR REQUISIÇÃO</button>
     <div id="msgStatus" class="loading">Enviando dados... Aguarde.</div>
 </div>
+
+<script>
+    // Agora você pode seguir com a função renderizarItens() 
+    // criando as linhas com a estrutura de duas colunas (qty-group).
+</script>
+
+</body>
+</html>
 
 <script>
    // MATRIZ DE CONSUMO COMPLETA - TODOS OS PONTOS E ITENS COM VALOR 1
@@ -222,49 +251,57 @@
     };
 
     function renderizarItens() {
-        const localCod = document.getElementById('local').value;
-        const container = document.getElementById('lista-itens');
-        container.innerHTML = '';
+    const localCod = document.getElementById('local').value;
+    const container = document.getElementById('lista-itens');
+    container.innerHTML = '';
 
-        if (!localCod) {
-            container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os dados.</p>';
-            return;
-        }
-
-        let lista;
-        if (localCod.startsWith("P") && !localCod.startsWith("PPV")) {
-            lista = listasPorTipo["PRACA"];
-        } else if (localCod.startsWith("SAU")) {
-            lista = listasPorTipo["BASE"];
-        } else {
-            lista = listasPorTipo["PPV"];
-        }
-
-        // Pega as médias específicas desse local
-        const mediasDoLocal = matrizConsumo[localCod] || {};
-
-        lista.forEach((item, index) => {
-            // Se o item não tiver média definida na matriz para esse local, usa 0
-            const mediaItem = mediasDoLocal[item] !== undefined ? mediasDoLocal[item] : 0;
-
-            const div = document.createElement('div');
-            div.className = 'item-row';
-            div.innerHTML = `
-                <div class="item-info">
-                    <span class="item-name">${item}</span>
-                    <span class="item-media">Sugestão (Média): ${mediaItem}</span>
-                </div>
-                <div class="qty-controls">
-                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', -1)">-</button>
-                    <div class="item-qty">
-                        <input type="number" id="input-${index}" class="input-item" data-name="${item}" value="0" min="0" max="99">
-                    </div>
-                    <button type="button" class="btn-qty" onclick="alterar('input-${index}', 1)">+</button>
-                </div>
-            `;
-            container.appendChild(div);
-        });
+    if (!localCod) {
+        container.innerHTML = '<p class="placeholder-text">Escolha um local para carregar os dados.</p>';
+        return;
     }
+
+    // 1. Identifica qual lista usar (Mantendo sua separação original)
+    let lista;
+    if (localCod.startsWith("P") && !localCod.startsWith("PPV")) {
+        lista = listasPorTipo["PRACA"];
+    } else if (localCod.startsWith("SAU")) {
+        lista = listasPorTipo["BASE"];
+    } else {
+        lista = listasPorTipo["PPV"];
+    }
+
+    // 2. Busca as médias específicas do local selecionado
+    const mediasDoLocal = matrizConsumo[localCod] || {};
+
+    // 3. Gera o HTML para cada item da lista específica
+    lista.forEach((item, index) => {
+        // Busca a média. Se o nome na lista for ligeiramente diferente do da matriz, 
+        // ele exibirá 0 em vez de quebrar o código.
+        const mediaItem = mediasDoLocal[item] !== undefined ? mediasDoLocal[item] : 0;
+
+        const div = document.createElement('div');
+        div.className = 'item-row';
+        div.innerHTML = `
+            <div class="item-info">
+                <span class="item-name">${item}</span>
+                <span class="item-media">Sugestão (Média): ${mediaItem}</span>
+            </div>
+            <div class="controls-container">
+                <div class="qty-group">
+                    <button type="button" class="btn-qty btn-estoque" onclick="alterar('est-${index}', -1)">-</button>
+                    <input type="number" id="est-${index}" class="item-qty input-estoque" data-name="${item}" value="0" min="0">
+                    <button type="button" class="btn-qty btn-estoque" onclick="alterar('est-${index}', 1)">+</button>
+                </div>
+                <div class="qty-group pedido-color">
+                    <button type="button" class="btn-qty btn-pedido" onclick="alterar('ped-${index}', -1)">-</button>
+                    <input type="number" id="ped-${index}" class="item-qty input-pedido" data-name="${item}" value="0" min="0">
+                    <button type="button" class="btn-qty btn-pedido" onclick="alterar('ped-${index}', 1)">+</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
 
     function alterar(id, valor) {
         const campo = document.getElementById(id);
@@ -297,7 +334,7 @@
             dadosParaEnviar[input.getAttribute('data-name')] = input.value;
         });
 
-        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbyWwJotrj5qj2NFblg06MbEzodpuCcE3Wu7hD9duOXU9JJ6W4lE2ZRxQ3IV-qwKTIcW/exec"; 
+        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzrAIcSdnZ1VOUCNOdhdaFAnsTPbJhUtkIfY3QVetd-wedoiAgMIMKxfI0NOvHFTBU/exec"; 
 
         try {
             await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosParaEnviar) });
