@@ -331,19 +331,18 @@
         "solicitante": solicitante
     };
 
-    // 2. Capturamos os itens
-    // Usamos o 'data-name' ou o texto da classe 'item-name'
+   // Coleta os itens com limpeza de espaços
     document.querySelectorAll('.item-row').forEach(row => {
-        const nomeItem = row.querySelector('.item-name').innerText.trim();
-        const estoque = row.querySelector('.input-estoque').value;
-        const pedido = row.querySelector('.input-pedido').value;
+        const nomeItemElement = row.querySelector('.item-name');
+        if (nomeItemElement) {
+            const nomeItem = nomeItemElement.innerText.trim(); // .trim() remove espaços invisíveis
+            const estoque = row.querySelector('.input-estoque').value || "0";
+            const pedido = row.querySelector('.input-pedido').value || "0";
 
-        // Montamos a chave EXATAMENTE como está na sua planilha (Maiúsculas, espaços e parênteses)
-        const chaveEstoque = nomeItem + " (ESTOQUE)";
-        const chavePedido = nomeItem + " (PEDIDO)";
-
-        dadosParaEnviar[chaveEstoque] = estoque;
-        dadosParaEnviar[chavePedido] = pedido;
+            // Monta a chave exatamente como deve estar na planilha
+            dadosParaEnviar[nomeItem + " (ESTOQUE)"] = estoque;
+            dadosParaEnviar[nomeItem + " (PEDIDO)"] = pedido;
+        }
     });
 
     // LOG PARA TESTE: Aperte F12 no navegador antes de enviar e veja se os nomes batem
