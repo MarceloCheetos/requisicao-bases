@@ -348,17 +348,19 @@
     // LOG PARA TESTE: Aperte F12 no navegador antes de enviar e veja se os nomes batem
     console.log("Objeto sendo enviado:", dadosParaEnviar);
 
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzrAIcSdnZ1VOUCNOdhdaFAnsTPbJhUtkIfY3QVetd-wedoiAgMIMKxfI0NOvHFTBU/exec"; 
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwkgvin9Bunl9tbdcHfCg2Au9kzITInpG1nIITt1AwEf6WNiU_6LiGx1L8U_V9Y3-wh/exec"; 
 
-    try {
+   try {
+        // Mudança crucial: enviamos como um formulário simples para evitar erro de CORS
         await fetch(URL_WEB_APP, { 
             method: 'POST', 
-            mode: 'no-cors', 
-            headers: { 'Content-Type': 'application/json' }, 
+            mode: 'no-cors', // Mantemos no-cors, mas mudamos o formato do dado
+            headers: { 'Content-Type': 'text/plain' }, // Google Apps Script prefere receber assim
             body: JSON.stringify(dadosParaEnviar) 
         });
         alert("Requisição enviada com sucesso!");
-        location.reload(); 
+        location.reload();
+
     } catch (error) {
         alert("Erro na conexão.");
         btn.style.display = 'block';
