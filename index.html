@@ -311,41 +311,61 @@
     }
 
     async function enviarParaPlanilha() {
-        const local = document.getElementById('local').value;
-        const solicitante = document.getElementById('solicitante').value;
-        const btn = document.getElementById('btnEnviar');
-        const status = document.getElementById('msgStatus');
+    const local = document.getElementById('local').value;
+    const solicitante = document.getElementById('solicitante').value;
+    const btn = document.getElementById('btnEnviar');
+    const status = document.getElementById('msgStatus');
 
-        if (!local || !solicitante) {
-            alert("Preencha a Localização e seu Nome.");
-            return;
-        }
-
-        btn.style.display = 'none';
-        status.style.display = 'block';
-
-        const dadosParaEnviar = {
-            data: new Date().toLocaleString('pt-BR'),
-            local: local,
-            solicitante: solicitante
-        };
-
-        document.querySelectorAll('.input-item').forEach(input => {
-            dadosParaEnviar[input.getAttribute('data-name')] = input.value;
-        });
-
-        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzrAIcSdnZ1VOUCNOdhdaFAnsTPbJhUtkIfY3QVetd-wedoiAgMIMKxfI0NOvHFTBU/exec"; 
-
-        try {
-            await fetch(URL_WEB_APP, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosParaEnviar) });
-            alert("Requisição enviada com sucesso!");
-            location.reload(); 
-        } catch (error) {
-            alert("Erro na conexão.");
-            btn.style.display = 'block';
-            status.style.display = 'none';
-        }
+    if (!local || !solicitante) {
+        alert("Preencha a Localização e seu Nome.");
+        return;
     }
+
+    btn.style.display = 'none';
+    status.style.display = 'block';
+
+    // 1. Iniciamos os dados básicos
+    const dadosParaEnviar = {
+        "data": new Date().toLocaleString('pt-BR'),
+        "local": local,
+        "solicitante": solicitante
+    };
+
+    // 2. Capturamos os itens
+    // Usamos o 'data-name' ou o texto da classe 'item-name'
+    document.querySelectorAll('.item-row').forEach(row => {
+        const nomeItem = row.querySelector('.item-name').innerText.trim();
+        const estoque = row.querySelector('.input-estoque').value;
+        const pedido = row.querySelector('.input-pedido').value;
+
+        // Montamos a chave EXATAMENTE como está na sua planilha (Maiúsculas, espaços e parênteses)
+        const chaveEstoque = nomeItem + " (ESTOQUE)";
+        const chavePedido = nomeItem + " (PEDIDO)";
+
+        dadosParaEnviar[chaveEstoque] = estoque;
+        dadosParaEnviar[chavePedido] = pedido;
+    });
+
+    // LOG PARA TESTE: Aperte F12 no navegador antes de enviar e veja se os nomes batem
+    console.log("Objeto sendo enviado:", dadosParaEnviar);
+
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzrAIcSdnZ1VOUCNOdhdaFAnsTPbJhUtkIfY3QVetd-wedoiAgMIMKxfI0NOvHFTBU/exec"; 
+
+    try {
+        await fetch(URL_WEB_APP, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(dadosParaEnviar) 
+        });
+        alert("Requisição enviada com sucesso!");
+        location.reload(); 
+    } catch (error) {
+        alert("Erro na conexão.");
+        btn.style.display = 'block';
+        status.style.display = 'none';
+    }
+}
 </script>
 </body>
 </html>
